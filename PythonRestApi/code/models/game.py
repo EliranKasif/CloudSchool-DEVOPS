@@ -14,7 +14,7 @@ class GameModel(db.Model):
     def __init__(self,id, title, thumbnail, game_url, genre,short_description,  platform):
         self.id = id
         self.title = title
-        self.thumbnail= thumbnail
+        self.thumbnail = thumbnail
         self.game_url = game_url
         self.genre = genre
         self.short_description = short_description

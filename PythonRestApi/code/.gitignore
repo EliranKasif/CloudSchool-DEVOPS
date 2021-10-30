@@ -3,4 +3,4 @@ venv/
 /data.db
 __pycache__/
 resources/__pycache__/
-
+config/app.conf
