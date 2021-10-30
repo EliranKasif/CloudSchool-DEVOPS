@@ -1,6 +1,8 @@
 import requests
 import json
 
+
+
 class QueryAPI():
 
     @classmethod
@@ -12,6 +14,8 @@ class QueryAPI():
             'x-rapidapi-key': RAPID_API_KEY
         }
         response = requests.request("GET", url, headers=headers, params=querystring)
-        jsondata = json.loads(response.text)
+        jsondata = None
+        if response.status_code == 200:
+            jsondata = json.loads(response.text)
         return jsondata
 
