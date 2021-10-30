@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free to play game By Eliran</title>
+</head>
+
+<body>
+    <div>
+        {% block content %}
+        {% for game in games %}
+            <div id="game" style="background-image: url({{game.thumbnail}});" onclick="window.open('{{game.game_url}}', '_blank');">
+                Title: {{game.title}}</br>
+                Category {{game.genre}}</br>
+                Platform: {{game.platform}}</br>
+                Release date: {{game.release_date}}</br>
+            </div>
+        {% endfor %}
+        {% endblock %}
+    </div>
+</body>
+
+<style>
+    #game {
+        float: left;
+        width: 400px;
+        height: 250px;
+        margin: 10px;
+        border-radius: 7px;
+        box-shadow: 0px 0px 5px grey;
+        background-size: cover;
+        color : white;
+        -webkit-text-stroke-width: 0.2px;
+        -webkit-text-stroke-color: black;
+        cursor: pointer;
+    }
+</style>
+
+</html>
