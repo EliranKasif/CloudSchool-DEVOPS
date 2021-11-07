@@ -2,8 +2,7 @@ import requests
 import json
 
 
-
-class QueryAPI():
+class QueryAPI:
 
     @classmethod
     def get_games_query(cls, querystring):
@@ -18,4 +17,3 @@ class QueryAPI():
         if response.status_code == 200:
             jsondata = json.loads(response.text)
         return jsondata
-
