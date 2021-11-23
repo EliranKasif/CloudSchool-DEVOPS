@@ -4,7 +4,7 @@
 	"myRestApi" : {
 		"configfile" : "app.conf.erb",
 		"config": {
-			"LOG_LEVEL" : "",
+			"LOG_LEVEL" : "DEBUG",
 			"END_POINT" : "",
 			"RAPID_API_KEY" : "",				
 			"MYSQL_ENDPOINT" : "",

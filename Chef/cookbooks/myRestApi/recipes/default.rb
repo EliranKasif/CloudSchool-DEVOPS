@@ -3,8 +3,7 @@
 # Recipe:: default
 #
 # Copyright:: 2021, The Authors, All Rights Reserved.
-
-template "var/www/html/index.html" do
-    source node["apache"]["indexfile"]
-    mode "0644"
-  end
+template "../../../../PythonRestApi/code/config/app.conf" do
+  source node["myRestApi"]["config"]
+  mode "0644"
+end
