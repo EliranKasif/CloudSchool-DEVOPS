@@ -13,10 +13,7 @@
 			"VAULT_TOKEN" : "",
 			"VAULT_PATH_TO_CREDS" : ""
 		}	
-	},
-	"packages-cookbook":[
-		"python", "git"
-	]
+	}
 },
 "run_list":["recipe[myRestApi]"]
 }
