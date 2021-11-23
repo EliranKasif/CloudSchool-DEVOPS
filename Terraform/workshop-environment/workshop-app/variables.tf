@@ -18,7 +18,7 @@ variable "cluster_name" {
 }
 
 variable "workshop-app_cluster_size_min" {  
-  default = 2
+  default = 1
 }
 
 variable "workshop-app_cluster_size_max" {

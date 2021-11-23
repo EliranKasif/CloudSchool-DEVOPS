@@ -3,10 +3,14 @@ from flask import render_template, Response
 from connectors.externalAPI import QueryAPI
 from models.game import GameModel
 from connectors.dbConnector import QueryDatabase
+import logging
+
+logger = logging.getLogger(__name__)
 
 class GameByCategory(Resource):
     def get (self, name):
         querystring = {"category": name}
+        logger.info(f"Get games from Database")
         gameList = GameModel.find_by_category(**querystring)
         if len(gameList) == 0:
             gameList = QueryAPI.get_games_query(querystring)

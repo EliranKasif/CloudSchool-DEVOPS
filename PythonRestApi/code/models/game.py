@@ -2,7 +2,7 @@ from db import db
 
 class GameModel(db.Model):
     __tablename__ = 'games'
-
+    #__bind_key__ = 'alchemy'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80))
     thumbnail = db.Column(db.String(300))
