@@ -8,7 +8,7 @@ package "python" do
   action :install
 end
 
-template "/tmp/app/CloudSchool-DEVOPS/PythonRestApi/code/config" do
-  source node["myRestApi"]["config"]
+template "/tmp/app/CloudSchool-DEVOPS/PythonRestApi/code/config/app.conf" do
+  source node["myRestApi"]["configfile"]
   mode "0644"
 end
