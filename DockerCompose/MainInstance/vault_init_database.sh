@@ -6,7 +6,7 @@ vault secrets enable database
 
 vault write database/config/my-mysql-database \
     plugin_name=mysql-database-plugin \
-    connection_url="admin:1tYaY69pNu2N@tcp(${MYSQL_ENDPOINT})/" \
+    connection_url="admin:w4s8Q2CBI4Nz@tcp(${MYSQL_ENDPOINT})/" \
     allowed_roles="my-role-short","my-role-long" \
     username="vaultuser" \
     password="vaultpass"
@@ -23,3 +23,4 @@ vault write database/roles/my-role-short\
     creation_statements="CREATE USER '{{name}}'@'%' IDENTIFIED BY '{{password}}';GRANT ALL ON alchemy.* TO '{{name}}'@'%';" \
     default_ttl="3m" \
     max_ttl="6m"
+
