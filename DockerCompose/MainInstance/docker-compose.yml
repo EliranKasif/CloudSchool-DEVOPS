@@ -56,10 +56,12 @@ services:
       CONSUL_HTTP_ADDR: "consul-server1:8500"  
     volumes:
       - ./vault.json:/consul/config/vault.json:ro    
+      - ./vault_init_database.sh: /vault_init_database.sh
     cap_add:
       - IPC_LOCK
     networks:
       - consul
+    command: sh -c "vault_init_database.sh"
 
 networks:
   consul:
