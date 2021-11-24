@@ -55,13 +55,11 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: "myroot"
       CONSUL_HTTP_ADDR: "consul-server1:8500"  
     volumes:
-      - ./vault.json:/consul/config/vault.json:ro    
-      - ./vault_init_database.sh:/vault_init_database.sh
+      - ./vault.json:/consul/config/vault.json:ro          
     cap_add:
       - IPC_LOCK
     networks:
-      - consul
-    command: sh -c "vault_init_database.sh"
+      - consul    
 
 networks:
   consul:
