@@ -1,0 +1,9 @@
+  consul-client:
+    image: hashicorp/consul:latest
+    container_name: consul-client
+    restart: always
+    volumes:
+     - ./client.json:/consul/config/client.json:ro
+    networks:
+      - consul
+    command: "agent"
