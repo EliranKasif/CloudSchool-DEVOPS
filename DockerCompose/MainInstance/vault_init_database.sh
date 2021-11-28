@@ -1,12 +1,11 @@
 export VAULT_ADDR=http://localhost:8200
-export MYSQL_ENDPOINT=cloudschool.cyauuy59rgfa.eu-west-1.rds.amazonaws.com:3306
 
 vault login myroot
 vault secrets enable database
 
 vault write database/config/my-mysql-database \
     plugin_name=mysql-database-plugin \
-    connection_url="admin:w4s8Q2CBI4Nz@tcp(${MYSQL_ENDPOINT})/" \
+    connection_url="${$DATABASE_USERNAME}:${DATABASE_PASSWORD}@tcp(${DATABASE_URL})/" \
     allowed_roles="my-role-short","my-role-long" \
     username="vaultuser" \
     password="vaultpass"
