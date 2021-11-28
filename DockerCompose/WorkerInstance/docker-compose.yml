@@ -7,3 +7,6 @@
     networks:
       - consul
     command: "agent"
+networks:
+  consul:
+    driver: bridge    
