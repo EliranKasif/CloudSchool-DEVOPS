@@ -5,11 +5,10 @@ vault secrets enable database
 
 vault write database/config/my-mysql-database \
     plugin_name=mysql-database-plugin \
-    connection_url="{$DATABASE_USERNAME}:{$DATABASE_PASSWORD}@tcp(${DATABASE_URL})/" \
+    connection_url="{{username}}:{{password}}@tcp(${DATABASE_URL})/" \
     allowed_roles="my-role-short","my-role-long" \
-    username="vaultuser" \
-    password="vaultpass"
-
+    username=$DATABASE_USERNAME \
+    password=$DATABASE_PASSWORD
 
 vault write database/roles/my-role-long \
     db_name=my-mysql-database \

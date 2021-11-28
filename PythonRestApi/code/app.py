@@ -60,9 +60,12 @@ def create_tables():
 
 def _get_db_connector():
     resp = VAULT_CLIENT.read(VAULT_PATH_TO_CREDS)
-    connection = pymysql.connect(host=MYSQL_ENDPOINT,
-                             user=resp['data']['username'],
-                             password=resp['data']['password'],
+    host = MYSQL_ENDPOINT
+    user= resp['data']['username']
+    password = resp['data']['password']
+    connection = pymysql.connect(host=host,
+                             user=user,
+                             password=password,
                              database=SCHEMA_NAME)
 
     return connection
