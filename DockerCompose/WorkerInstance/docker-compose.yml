@@ -1,3 +1,4 @@
+services:  
   consul-client:
     image: hashicorp/consul:latest
     container_name: consul-client
@@ -7,6 +8,7 @@
     networks:
       - consul
     command: "agent"
+    
 networks:
   consul:
     driver: bridge    
