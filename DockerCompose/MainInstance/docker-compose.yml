@@ -7,7 +7,7 @@ services:
     container_name: consul-server1
     restart: always
     environment:
-      VAULT_ADDR: "http://0.0.0.0:8200"
+      VAULT_ADDR: ${VAULT_ADDR}
       VAULT_DEV_ROOT_TOKEN_ID: "myroot"
     volumes:
      - ./server1.json:/consul/config/server1.json:ro
@@ -24,7 +24,7 @@ services:
     container_name: consul-server2
     restart: always
     environment:
-      VAULT_ADDR: "http://0.0.0.0:8200"
+      VAULT_ADDR: ${VAULT_ADDR}
       VAULT_DEV_ROOT_TOKEN_ID: "myroot"
     volumes:
      - ./server2.json:/consul/config/server2.json:ro
@@ -37,7 +37,7 @@ services:
     container_name: consul-server3
     restart: always
     environment:
-      VAULT_ADDR: "http://0.0.0.0:8200"
+      VAULT_ADDR: ${VAULT_ADDR}
       VAULT_DEV_ROOT_TOKEN_ID: "myroot"
     volumes:
      - ./server3.json:/consul/config/server3.json:ro
