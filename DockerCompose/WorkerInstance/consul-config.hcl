@@ -1,6 +1,11 @@
  
 consul {
- address = "$MAIN_INSTANCE_IP"
+ address = "main.services:8500"
+  auth {
+   enabled = true
+   username = "test"
+   password = "test"
+ }
 }
  
 log_level = "warn"
@@ -8,8 +13,8 @@ log_level = "warn"
 # render the role with the new value and re run python application 
 template {
  source = "consul-config-app.tpl"
- destination = "$HOME/CloudSchool-DEVOPS/PythonRestApi/code/config/app.conf"
+ destination = "./CloudSchool-DEVOPS/PythonRestApi/code/config/app.conf"
   exec {
-    command = "python3 $HOME/CloudSchool-DEVOPS/PythonRestApi/code/app.py> $HOME/consul-template.log"
+    command = "python3 ./CloudSchool-DEVOPS/PythonRestApi/code/app.py> ./consul-template.log"
   }
 }
