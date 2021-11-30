@@ -1,5 +1,4 @@
- 
-consul {
+ consul {
  address = "main.services:8500"
   auth {
    enabled = true
