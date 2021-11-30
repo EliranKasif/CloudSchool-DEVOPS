@@ -1,6 +1,6 @@
  
 consul {
- address = "$MAIN_INSTANCE_IP:8500"
+ address = "$MAIN_INSTANCE_IP"
 }
  
 log_level = "warn"
