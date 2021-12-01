@@ -9,7 +9,7 @@ data "terraform_remote_state" "site" {
 }
 
 resource "aws_instance" "main-server_lc" {
-  user_data =   templatefile("${path.module}/templates/main-instance.cloudinit", {database_url_terraform = var.database_url, database_username_terraform = var.database_user, database_password_terraform = var.database_password })
+  user_data =   templatefile("${path.module}/templates/main-instance.sh", {database_url_terraform = var.database_url, database_username_terraform = var.database_user, database_password_terraform = var.database_password })
   security_groups = [aws_security_group.main-instance_vault.id, aws_security_group.main-instance_consul.id, var.rds-mysql-db_sg_id, aws_security_group.main-instance-ssh.id ]
   subnet_id = element(element(data.terraform_remote_state.site.outputs.public_subnets, 0), 0)
   count = 1

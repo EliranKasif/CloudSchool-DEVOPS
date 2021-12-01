@@ -1,33 +1,3 @@
-From nobody Mon Apr 11 16:31:45 2016
-Content-Type: multipart/mixed; boundary="===============8263629738082711943=="
-MIME-Version: 1.0
-
---===============8263629738082711943==
-MIME-Version: 1.0
-Content-Type: text/cloud-config; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachement; filename=01-default.cloud-config.template
-
-#cloud-config
-apt_update: True
-apt_upgrade: True
-
-disable_root: False
-ssh_pwauth: False
-manage_etc_hosts: False
-
-cloud_final_modules:
-- [scripts-user, always]
-
-output:
-all: "| tee -a /var/log/cloud-init-output.log"
-
---===============8263629738082711943==
-MIME-Version: 1.0
-Content-Type: text/x-shellscript; charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachement; filename=02-default.x-shellscript.template
-
 #!/bin/sh
 set -o xtrace
 sudo -i
@@ -55,6 +25,3 @@ docker exec -i vault-server bin/sh < ./CloudSchool-DEVOPS/DockerCompose/MainInst
 
 docker exec -i consul-server1 bin/sh < ./CloudSchool-DEVOPS/DockerCompose/MainInstance/consul_kv_init.sh
 
-disown
-
---===============8263629738082711943==--

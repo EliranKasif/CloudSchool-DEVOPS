@@ -9,7 +9,7 @@ data "terraform_remote_state" "site" {
 }
 
 resource "aws_launch_configuration" "workshop-app_lc" {
-  user_data =   templatefile("${path.module}/templates/project-app.cloudinit",{main-instance_local_ipv4 = var.main-instance_local_ipv4})
+  user_data =   templatefile("${path.module}/templates/project-app.sh",{main-instance_local_ipv4 = var.main-instance_local_ipv4})
    lifecycle {  # This is necessary to make terraform launch configurations work with autoscaling groups
     create_before_destroy = true
   }
