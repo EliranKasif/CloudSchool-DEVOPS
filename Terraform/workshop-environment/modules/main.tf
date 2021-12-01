@@ -11,11 +11,29 @@ provider "aws" {
   region = "eu-west-1"
 }
 
-
-module "workshop-app" {
-  source = "../workshop-app"
-}
-
 module "rds-global" {
   source = "../rds-global"
 }
+
+
+module "main-server" {
+  source = "../main-server"
+  database_user = "${module.rds-global.database_user}"
+  database_password = "${module.rds-global.database_password}"
+  database_url = "${module.rds-global.database_url}"
+  rds-mysql-db_sg_id = "${module.rds-global.rds-mysql-db_sg_id}"
+  depends_on = [module.rds-global]
+}
+
+module "workshop-app" {
+  source = "../workshop-app"
+  main-instance_vault_sg_id = "${module.main-server.main-instance_vault_sg_id}"
+  main-instance_consul_sg_id = "${module.main-server.main-instance_consul_sg_id}"
+  rds-mysql-db_sg_id = "${module.rds-global.rds-mysql-db_sg_id}"
+  main-instance_local_ipv4 = "${module.main-server.main-instance_local_ipv4}"
+  depends_on = [module.rds-global, module.main-server]
+}
+
+
+
+

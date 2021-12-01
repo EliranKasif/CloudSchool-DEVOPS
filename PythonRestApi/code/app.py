@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from flask_restful import Api
 from db import db
 from resources.game import GameByCategory, GameByPlatform, GameList
+from resources.checkhealth import CheckHealth
 import os
 import logging
 import logging.config
@@ -42,6 +43,7 @@ api = Api(app)
 api.add_resource(GameByCategory, '/category/<string:name>')
 api.add_resource(GameByPlatform, '/platform/<string:name>')
 api.add_resource(GameList, '/games')
+api.add_resource(CheckHealth, '/checkhealth')
 
 @app.errorhandler(404)
 def not_found(error):

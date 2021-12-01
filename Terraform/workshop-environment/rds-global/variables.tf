@@ -28,7 +28,7 @@ variable "instance_class" {
 }
 
 variable "name" {
-  default = "workshopDB"
+  default = "alchemy"
 }
 
 variable "storage_type" {
@@ -67,4 +67,12 @@ EOS
 
 variable "region" {
   default = "eu-west-1"  
+}
+
+variable "database_user" {
+  default = "admin"
+}
+
+variable "database_password" {
+  default = "cloudschool"  
 }
