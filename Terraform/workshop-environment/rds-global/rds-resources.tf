@@ -19,13 +19,14 @@ resource "aws_security_group" "rds-mysql-db" {
     to_port = 3306
     protocol = "TCP"
     cidr_blocks = [data.terraform_remote_state.site.outputs.vpc_cidr]
+    self = true
   }
 
   egress {
     from_port = 0
     to_port = 0
     protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [data.terraform_remote_state.site.outputs.vpc_cidr]
   }
 }
 
@@ -45,8 +46,8 @@ resource "aws_db_instance" "rds-db" {
   engine_version       = var.engine_version
   instance_class       = var.instance_class
   name                 = var.name
-  username             = "foo"
-  password             = "foobarbaz"
+  username             = var.database_user
+  password             = var.database_password
   parameter_group_name = "default.mysql5.7"
   multi_az = var.multi_az
   apply_immediately = var.apply_immediately

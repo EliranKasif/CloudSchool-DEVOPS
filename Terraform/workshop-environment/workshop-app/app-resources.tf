@@ -9,11 +9,11 @@ data "terraform_remote_state" "site" {
 }
 
 resource "aws_launch_configuration" "workshop-app_lc" {
-  user_data =   templatefile("${path.module}/templates/project-app.cloudinit", {web-app = var.web-app})
+  user_data =   templatefile("${path.module}/templates/project-app.cloudinit",{main-instance_local_ipv4 = var.main-instance_local_ipv4})
    lifecycle {  # This is necessary to make terraform launch configurations work with autoscaling groups
     create_before_destroy = true
   }
-  security_groups = [aws_security_group.workshop-app.id]
+  security_groups = [aws_security_group.workshop-app.id, var.main-instance_vault_sg_id, var.main-instance_consul_sg_id, var.rds-mysql-db_sg_id]
   name_prefix = "${var.cluster_name}_lc"
   enable_monitoring = false
 
@@ -73,19 +73,6 @@ resource "aws_security_group" "workshop-app_lb" {
   }
 }
 
-resource "aws_security_group" "workshop-app_client" {
-  
-  lifecycle {  
-    create_before_destroy = true
-  }
-
-  name = "${var.cluster_name}_client"
-  description = "sg for ${var.cluster_name} app clients"
-  vpc_id = data.terraform_remote_state.site.outputs.vpc_id
-
-}
-
-
 resource "aws_security_group" "workshop-app" {
     //??? complete the missing attributes
 
@@ -99,20 +86,11 @@ resource "aws_security_group" "workshop-app" {
 
   ingress {
     description      = "http"
-    from_port        = 80
-    to_port          = 80
+    from_port        = 5000
+    to_port          = 5000
     protocol         = "tcp"
     self = true
   }
-
-    ingress {
-    description      = "ssh"
-    from_port        = 22
-    to_port          = 22
-    protocol         = "tcp"
-    cidr_blocks      = ["79.177.17.220/32"]
-  }
-
   egress {
     from_port = 0
     to_port = 0
@@ -124,7 +102,7 @@ resource "aws_security_group" "workshop-app" {
 resource "aws_elb" "workshop-app" {
   name = "${var.cluster_name}-lb"
   listener {
-    instance_port = 80
+    instance_port = 5000
     instance_protocol = "HTTP"
     lb_port = 80
     lb_protocol = "HTTP"
@@ -136,7 +114,7 @@ resource "aws_elb" "workshop-app" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:80/"
+    target              = "HTTP:5000/"
     interval            = 30
   }  
   idle_timeout                = 400

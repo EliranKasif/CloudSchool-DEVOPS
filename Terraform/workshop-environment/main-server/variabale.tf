@@ -14,7 +14,7 @@ variable "role" {
 }
 
 variable "cluster_name" {
-	default = "workshop-terraform"
+	default = "main-server"
 }
 
 variable "workshop-app_cluster_size_min" {  
@@ -55,19 +55,20 @@ variable region {
   default = "eu-west-1"  
 } 
 
-variable "main-instance_vault_sg_id" {
-  description = "Main-instance vault security group id"
+variable "database_user" {
+    description = "This is database user"
+
 }
 
-variable "main-instance_consul_sg_id" {
-  description = "Main-instance consul security group id"
+variable "database_password" {
+  description = "This is database password"
+}
+
+variable "database_url" {
+    description = "This is database url"
+
 }
 
 variable "rds-mysql-db_sg_id" {
     description = "RDS MySQL security group id"
-}
-
-variable "main-instance_local_ipv4" {
-  description = "Main instance local ipv4"
-  
 }
