@@ -9,7 +9,7 @@ apt -y install ./chefdk_4.13.3-1_amd64.deb
 
 apt -y install git-all
 
-apt install unzip
+apt -y install unzip
 
 git clone https://github.com/EliranKasif/CloudSchool-DEVOPS.git
 

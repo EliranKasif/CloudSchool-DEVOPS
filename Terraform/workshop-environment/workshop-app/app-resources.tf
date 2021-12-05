@@ -114,7 +114,7 @@ resource "aws_elb" "workshop-app" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:5000/"
+    target              = "HTTP:5000/checkhealth"
     interval            = 30
   }  
   idle_timeout                = 400

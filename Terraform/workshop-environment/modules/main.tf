@@ -34,6 +34,13 @@ module "workshop-app" {
   depends_on = [module.rds-global, module.main-server]
 }
 
+module "jenkins-server" {
+  source = "../jenkins-server"
+  main-instance_ssh_sg_id = "${module.main-server.main-instance_ssh_sg_id}"
+  main-instance_local_ipv4 = "${module.main-server.main-instance_local_ipv4}"
+  depends_on = [module.main-server]
+}
+
 
 
 

@@ -21,6 +21,8 @@ export VAULT_ADDR="http://$(curl http://169.254.169.254/latest/meta-data/local-i
 
 docker-compose -f ./CloudSchool-DEVOPS/DockerCompose/MainInstance/docker-compose.yml up --detach
 
+sleep 10
+
 docker exec -i vault-server bin/sh < ./CloudSchool-DEVOPS/DockerCompose/MainInstance/vault_init_database.sh
 
 docker exec -i consul-server1 bin/sh < ./CloudSchool-DEVOPS/DockerCompose/MainInstance/consul_kv_init.sh
