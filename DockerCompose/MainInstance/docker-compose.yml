@@ -62,7 +62,6 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - ./vault.json:/consul/config/vault.json:ro  
-      - ./vault_init_database.sh:/vault/config/vault_init_database.sh        
     cap_add:
       - IPC_LOCK
     networks:
@@ -72,9 +71,6 @@ services:
       interval: 2s
       timeout: 3s
       retries: 30   
-
-  init-services:
-    build: 
 
 networks:
   consul:
