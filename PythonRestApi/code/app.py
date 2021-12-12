@@ -25,8 +25,7 @@ app.config.from_pyfile(os.path.join(".", "config/app.conf"), silent=False)
 
 RAPID_API_KEY = app.config.get("RAPID_API_KEY")
 END_POINT = app.config.get("END_POINT")
-SQL_CONNECTION_STRING = (app.config.get("MYSQL_CONNECTION_STRING")).split(":")[0]
-MYSQL_ENDPOINT = app.config.get("MYSQL_ENDPOINT")
+MYSQL_ENDPOINT = (app.config.get("MYSQL_ENDPOINT")).split(":")[0]
 LOG_LEVEL = app.config.get("LOG_LEVEL")
 SCHEMA_NAME = app.config.get("SCHEMA_NAME")
 VAULT_ENDPOINT = app.config.get("VAULT_ENDPOINT")
