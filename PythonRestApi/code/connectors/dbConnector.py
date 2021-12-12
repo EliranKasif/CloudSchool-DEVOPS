@@ -10,3 +10,10 @@ class QueryDatabase:
             for gameJson in jsonData:
                 game = GameModel(**gameJson)
                 game.save_to_db()
+
+    @classmethod
+    def ReCreateSchema(cls, SCHEMA_NAME):
+        db.session.execute(f"DROP DATABASE IF EXISTS {SCHEMA_NAME}")
+        db.session.execute(f"CREATE DATABASE IF NOT EXISTS {SCHEMA_NAME}")
+
+
