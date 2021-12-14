@@ -10,13 +10,13 @@ logger = logging.getLogger("werkzeug")
 class GameByCategory(Resource):
     def get (self, name):
         querystring = {"category": name}
-        logger.info(f"Get games from Database")
         gameList = GameModel.find_by_category(**querystring)
         if len(gameList) == 0:
+            logger.info(f"Get games from API")
             gameList = QueryAPI.get_games_query(querystring)
             if gameList == None:
                 return Response(render_template("error.html", mimetype='text/html'), status=404)
-            QueryDatabase.UpsertGameModelData(gameList)
+            #QueryDatabase.UpsertGameModelData(gameList)
         return Response(render_template("game.html", games=gameList, mimetype='text/html'), status = 200)
 
 class GameByPlatform(Resource):
@@ -27,7 +27,7 @@ class GameByPlatform(Resource):
             gameList = QueryAPI.get_games_query(querystring)
             if gameList == None:
                 return Response(render_template("error.html", mimetype='text/html'), status=404)
-            QueryDatabase.UpsertGameModelData(gameList)
+            #QueryDatabase.UpsertGameModelData(gameList)
         return Response(render_template("game.html", games=gameList, mimetype='text/html'), status = 200)
 
 

@@ -1,8 +1,6 @@
 from flask_restful import Resource
 from flask import Response
 
-import logging
-logger = logging.getLogger("werkzeug")
 
 class CheckHealth(Resource):
     def get(self):

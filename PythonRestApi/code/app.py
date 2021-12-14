@@ -34,7 +34,7 @@ VAULT_ENDPOINT = app.config.get("VAULT_ENDPOINT")
 VAULT_TOKEN = app.config.get("VAULT_TOKEN")
 VAULT_PATH_TO_CREDS = app.config.get("VAULT_PATH_TO_CREDS")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://' #'sqlite:///data.db'
 #app.config['SQLALCHEMY_BINDS'] = {SCHEMA_NAME: SQL_CONNECTION_STRING + SCHEMA_NAME}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -59,10 +59,11 @@ def not_found500(error):
 @app.before_first_request
 def create_tables():
     logger.info("Preparing database {}...".format(db))
-    #db.session.execute(f"CREATE DATABASE IF NOT EXISTS {SCHEMA_NAME}")
+    db.session.execute(f"CREATE DATABASE IF NOT EXISTS {SCHEMA_NAME}")
     db.create_all()
 
 def _get_db_connector():
+    logger.info('Get credentials for database from Vault')
     resp = VAULT_CLIENT.read(VAULT_PATH_TO_CREDS)
     host = MYSQL_ENDPOINT
     user= resp['data']['username']
