@@ -74,11 +74,12 @@ services:
   
   grafana:
     image: grafana/grafana-oss:latest
+    container_name: grafana-server
     ports:
       - 3000:3000
-    user: '472'
     volumes:      
       - ~/grafana-data:/var/lib/grafana
+    user: '0'
     networks:
       - consul
 

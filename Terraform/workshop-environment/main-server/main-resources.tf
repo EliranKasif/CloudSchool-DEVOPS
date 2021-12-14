@@ -10,7 +10,7 @@ data "terraform_remote_state" "site" {
 
 resource "aws_instance" "main-server_lc" {
   user_data =   templatefile("${path.module}/templates/main-instance.sh", {database_url_terraform = var.database_url, database_username_terraform = var.database_user, database_password_terraform = var.database_password })
-  security_groups = [aws_security_group.main-instance_vault.id, aws_security_group.main-instance_consul.id, var.rds-mysql-db_sg_id, aws_security_group.main-instance-ssh.id ]
+  security_groups = [aws_security_group.main-instance_vault.id, aws_security_group.main-instance_consul.id, var.rds-mysql-db_sg_id, aws_security_group.main-instance-ssh.id, aws_security_group.main-instance_grafana.id ]
   subnet_id = element(element(data.terraform_remote_state.site.outputs.public_subnets, 0), 0)
   count = 1
   ami = var.ami
@@ -98,6 +98,29 @@ resource "aws_security_group" "main-instance-ssh" {
   }
 }
 
+resource "aws_security_group" "main-instance_grafana" {
+  lifecycle {  
+    create_before_destroy = true
+  }
+
+  name = "${var.cluster_name}_services_grafana"
+  description = "sg for ${var.cluster_name} grafana service"
+  vpc_id = data.terraform_remote_state.site.outputs.vpc_id
+  ingress {
+    description      = "grafana"
+    from_port        = 3000
+    to_port          = 3000
+    protocol         = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
 
 resource "aws_iam_role" "assume_role" {
   name = "assume_role"
@@ -138,48 +161,11 @@ resource "aws_iam_role_policy" "cloudwatch_s3_policy" {
       "Statement": [
         {
           "Action": [
-          "s3:*"
+          "s3:*",
+          "cloudwatch:*",
+          "logs:*"
           ],
           "Effect": "Allow",
-          "Resource": "*"
-        },
-        {
-          "Sid": "AllowReadingMetricsFromCloudWatch",
-          "Effect": "Allow",
-          "Action": [
-            "cloudwatch:DescribeAlarmsForMetric",
-            "cloudwatch:DescribeAlarmHistory",
-            "cloudwatch:DescribeAlarms",
-            "cloudwatch:ListMetrics",
-            "cloudwatch:GetMetricStatistics",
-            "cloudwatch:GetMetricData",
-            "cloudwatch:GetInsightRuleReport"
-          ],
-          "Resource": "*"
-        },
-        {
-          "Sid": "AllowReadingLogsFromCloudWatch",
-          "Effect": "Allow",
-          "Action": [
-            "logs:DescribeLogGroups",
-            "logs:GetLogGroupFields",
-            "logs:StartQuery",
-            "logs:StopQuery",
-            "logs:GetQueryResults",
-            "logs:GetLogEvents"
-          ],
-          "Resource": "*"
-        },
-        {
-          "Sid": "AllowReadingTagsInstancesRegionsFromEC2",
-          "Effect": "Allow",
-          "Action": ["ec2:DescribeTags", "ec2:DescribeInstances", "ec2:DescribeRegions"],
-          "Resource": "*"
-        },
-        {
-          "Sid": "AllowReadingResourcesForTags",
-          "Effect": "Allow",
-          "Action": "tag:GetResources",
           "Resource": "*"
         }
       ]
