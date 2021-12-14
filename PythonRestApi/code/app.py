@@ -11,7 +11,6 @@ import watchtower
 import hvac
 import pymysql
 import urllib.request
-
 log_level = {
   'CRITICAL' : 50,
   'ERROR'	   : 40,
@@ -24,7 +23,7 @@ logger = logging.getLogger("werkzeug")
 
 app = Flask("CloudSchool-App")
 
-app.config.from_pyfile(os.path.join(".", "config/app.conf"), silent=False)
+app.config.from_pyfile("./config/app.conf", silent=False)
 
 RAPID_API_KEY = app.config.get("RAPID_API_KEY")
 END_POINT = app.config.get("END_POINT")
@@ -35,7 +34,7 @@ VAULT_ENDPOINT = app.config.get("VAULT_ENDPOINT")
 VAULT_TOKEN = app.config.get("VAULT_TOKEN")
 VAULT_PATH_TO_CREDS = app.config.get("VAULT_PATH_TO_CREDS")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://'
 #app.config['SQLALCHEMY_BINDS'] = {SCHEMA_NAME: SQL_CONNECTION_STRING + SCHEMA_NAME}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -87,7 +86,7 @@ if __name__ == '__main__':
         instanceid = urllib.request.urlopen('http://169.254.169.254/latest/meta-data/instance-id').read().decode()
     except:
         pass
-    handler = watchtower.CloudWatchLogHandler(stream_name= f"werkzeug-{instanceid}" ,log_group_name=app.name)
+    handler = watchtower.CloudWatchLogHandler(stream_name= f"werkzeug-{instanceid}", log_group_name=app.name)
     app.logger.addHandler(handler)
     logging.getLogger("werkzeug").addHandler(handler)
     db.init_app(app)

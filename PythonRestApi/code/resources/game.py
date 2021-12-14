@@ -33,10 +33,11 @@ class GameByPlatform(Resource):
 
 class GameList(Resource):
     def get (self):
-        gameList = QueryAPI.get_games_query(None)
-        if gameList == None:
-            return Response(render_template("error.html", mimetype='text/html'), status = 404)
-        QueryDatabase.UpsertGameModelData(gameList)
         gameList = GameModel.find_all()
+        if len(gameList) == 0:
+            gameList = QueryAPI.get_games_query(None)
+            if gameList == None:
+                return Response(render_template("error.html", mimetype='text/html'), status = 404)
+            QueryDatabase.UpsertGameModelData(gameList)
         return Response(render_template("game.html", games=gameList, mimetype='text/html'), status = 200)
 
