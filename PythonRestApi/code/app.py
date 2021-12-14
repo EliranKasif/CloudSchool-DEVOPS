@@ -75,7 +75,7 @@ def _get_db_connector():
 
     return connection
 
-#app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"creator" : _get_db_connector}
+app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"creator" : _get_db_connector}
 
 if __name__ == '__main__':
     logging.basicConfig(
