@@ -31,6 +31,8 @@ module "workshop-app" {
   main-instance_consul_sg_id = "${module.main-server.main-instance_consul_sg_id}"
   rds-mysql-db_sg_id = "${module.rds-global.rds-mysql-db_sg_id}"
   main-instance_local_ipv4 = "${module.main-server.main-instance_local_ipv4}"
+  iam_cloudwatch_s3_profile_id = "${module.main-server.cloudwatch_s3_profile_id}"
+  iam_cloudwatch_s3_profile_name = "${module.main-server.cloudwatch_s3_profile_name}"
   depends_on = [module.rds-global, module.main-server]
 }
 

@@ -16,6 +16,7 @@ resource "aws_instance" "main-server_lc" {
   ami = var.ami
   instance_type = var.instance_type
   key_name = data.terraform_remote_state.site.outputs.admin_key_name
+  iam_instance_profile = aws_iam_instance_profile.cloudwatch_s3_profile.name
   tags  ={
     Name = "Main-server"
     Source = "Terraform"
@@ -95,4 +96,94 @@ resource "aws_security_group" "main-instance-ssh" {
     protocol = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+
+resource "aws_iam_role" "assume_role" {
+  name = "assume_role"
+
+  assume_role_policy = jsonencode(
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": "sts:AssumeRole",
+        "Principal": {
+          "Service": "ec2.amazonaws.com"
+        },
+        "Effect": "Allow",
+        "Sid": ""
+      }
+    ]
+  }
+)
+
+  tags = {
+      Name = "assume_role"
+  }
+}
+
+resource "aws_iam_instance_profile" "cloudwatch_s3_profile" {
+  name = "cloudwatch_s3_profile"
+  role = aws_iam_role.assume_role.name
+}
+
+resource "aws_iam_role_policy" "cloudwatch_s3_policy" {
+  name = "cloudwatch_s3_policy"
+  role = aws_iam_role.assume_role.id
+
+  policy = jsonencode(
+    {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+          "Action": [
+          "s3:*"
+          ],
+          "Effect": "Allow",
+          "Resource": "*"
+        },
+        {
+          "Sid": "AllowReadingMetricsFromCloudWatch",
+          "Effect": "Allow",
+          "Action": [
+            "cloudwatch:DescribeAlarmsForMetric",
+            "cloudwatch:DescribeAlarmHistory",
+            "cloudwatch:DescribeAlarms",
+            "cloudwatch:ListMetrics",
+            "cloudwatch:GetMetricStatistics",
+            "cloudwatch:GetMetricData",
+            "cloudwatch:GetInsightRuleReport"
+          ],
+          "Resource": "*"
+        },
+        {
+          "Sid": "AllowReadingLogsFromCloudWatch",
+          "Effect": "Allow",
+          "Action": [
+            "logs:DescribeLogGroups",
+            "logs:GetLogGroupFields",
+            "logs:StartQuery",
+            "logs:StopQuery",
+            "logs:GetQueryResults",
+            "logs:GetLogEvents"
+          ],
+          "Resource": "*"
+        },
+        {
+          "Sid": "AllowReadingTagsInstancesRegionsFromEC2",
+          "Effect": "Allow",
+          "Action": ["ec2:DescribeTags", "ec2:DescribeInstances", "ec2:DescribeRegions"],
+          "Resource": "*"
+        },
+        {
+          "Sid": "AllowReadingResourcesForTags",
+          "Effect": "Allow",
+          "Action": "tag:GetResources",
+          "Resource": "*"
+        }
+      ]
+    }
+
+  )
 }

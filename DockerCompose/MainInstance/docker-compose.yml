@@ -70,7 +70,17 @@ services:
       test: ["CMD", "vault", "status"]
       interval: 2s
       timeout: 3s
-      retries: 30   
+      retries: 30
+  
+  grafana:
+    image: grafana/grafana-oss:latest
+    ports:
+      - 3000:3000
+    user: '472'
+    volumes:      
+      - ~/grafana-data:/var/lib/grafana
+    networks:
+      - consul
 
 networks:
   consul:
