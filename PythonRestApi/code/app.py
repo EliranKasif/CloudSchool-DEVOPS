@@ -11,6 +11,12 @@ import watchtower
 import hvac
 import pymysql
 import urllib.request
+import boto3
+
+AWS_REGION_NAME = 'eu-west-1'
+
+boto3_logs_client = boto3.client("logs", region_name=AWS_REGION_NAME)
+
 log_level = {
   'CRITICAL' : 50,
   'ERROR'	   : 40,
@@ -18,7 +24,6 @@ log_level = {
   'INFO'	   : 20,
   'DEBUG'	   : 10
 }
-
 logger = logging.getLogger("werkzeug")
 
 app = Flask("CloudSchool-App")
@@ -87,7 +92,7 @@ if __name__ == '__main__':
         instanceid = urllib.request.urlopen('http://169.254.169.254/latest/meta-data/instance-id').read().decode()
     except:
         pass
-    handler = watchtower.CloudWatchLogHandler(stream_name= f"werkzeug-{instanceid}", log_group_name=app.name)
+    handler = watchtower.CloudWatchLogHandler(stream_name= f"werkzeug-{instanceid}", log_group_name=app.name, boto3_client=boto3_logs_client)
     app.logger.addHandler(handler)
     logging.getLogger("werkzeug").addHandler(handler)
     db.init_app(app)
