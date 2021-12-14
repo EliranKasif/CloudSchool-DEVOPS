@@ -7,8 +7,11 @@ from resources.recreate import ReCreateSchema
 import os
 import logging
 import logging.config
+import watchtower
 import hvac
 import pymysql
+import urllib.request
+
 log_level = {
   'CRITICAL' : 50,
   'ERROR'	   : 40,
@@ -17,9 +20,9 @@ log_level = {
   'DEBUG'	   : 10
 }
 
-logger = logging.getLogger('app')
+logger = logging.getLogger("werkzeug")
 
-app = Flask(__name__)
+app = Flask("CloudSchool-App")
 
 app.config.from_pyfile(os.path.join(".", "config/app.conf"), silent=False)
 
@@ -32,7 +35,7 @@ VAULT_ENDPOINT = app.config.get("VAULT_ENDPOINT")
 VAULT_TOKEN = app.config.get("VAULT_TOKEN")
 VAULT_PATH_TO_CREDS = app.config.get("VAULT_PATH_TO_CREDS")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://"
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 #app.config['SQLALCHEMY_BINDS'] = {SCHEMA_NAME: SQL_CONNECTION_STRING + SCHEMA_NAME}
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
@@ -57,7 +60,7 @@ def not_found500(error):
 @app.before_first_request
 def create_tables():
     logger.info("Preparing database {}...".format(db))
-    db.session.execute(f"CREATE DATABASE IF NOT EXISTS {SCHEMA_NAME}")
+    #db.session.execute(f"CREATE DATABASE IF NOT EXISTS {SCHEMA_NAME}")
     db.create_all()
 
 def _get_db_connector():
@@ -72,14 +75,21 @@ def _get_db_connector():
 
     return connection
 
-app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"creator" : _get_db_connector}
+#app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {"creator" : _get_db_connector}
 
 if __name__ == '__main__':
-    logger.warn('In Main...')
     logging.basicConfig(
         level=log_level[LOG_LEVEL],
         format='%(asctime)s - %(levelname)8s - %(name)9s - %(funcName)15s - %(message)s'
     )
+    instanceid = "local"
+    try:
+        instanceid = urllib.request.urlopen('http://169.254.169.254/latest/meta-data/instance-id').read().decode()
+    except:
+        pass
+    handler = watchtower.CloudWatchLogHandler(stream_name= f"werkzeug-{instanceid}" ,log_group_name=app.name)
+    app.logger.addHandler(handler)
+    logging.getLogger("werkzeug").addHandler(handler)
     db.init_app(app)
     logger.info('Starting Flask server on {} listening on port {}'.format('0.0.0.0', '5000'))
     app.run(host='0.0.0.0', port=5000, debug=True)

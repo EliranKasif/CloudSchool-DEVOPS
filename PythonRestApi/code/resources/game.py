@@ -5,7 +5,7 @@ from models.game import GameModel
 from connectors.dbConnector import QueryDatabase
 import logging
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("werkzeug")
 
 class GameByCategory(Resource):
     def get (self, name):

@@ -2,7 +2,7 @@ from flask_restful import Resource
 from flask import Response
 from connectors.dbConnector import QueryDatabase
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("werkzeug")
 
 class ReCreateSchema(Resource):
     def get(self):
