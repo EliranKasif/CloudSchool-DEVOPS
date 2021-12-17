@@ -43,8 +43,9 @@ execute 'install python dependencies' do
 end
 
 execute 'run consul-template to get application config' do
-  cwd '/home/bob/myapp'
-  command 'consul-template -config /CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config.hcl'
+  cwd '/CloudSchool-DEVOPS/DockerCompose/WorkerInstance/'
+  command 'consul-template -config ./consul-config.hcl'
+  timeout 10         
 end
 
 execute 'run application' do
