@@ -30,7 +30,7 @@ git "/CloudSchool-DEVOPS/Chef/cookbooks/myRestApi/files/default/myapp" do
 end
 
 remote_directory '/home/bob/myapp' do
-  source 'myapp' # This is the name of the folder containing our source code that we kept in ./my-cookbook/files/default/
+  source 'myapp/code' # This is the name of the folder containing our source code that we kept in ./my-cookbook/files/default/
   owner 'bob'
   group 'users'
   mode '0755'
@@ -38,14 +38,17 @@ remote_directory '/home/bob/myapp' do
 end
 
 execute 'install python dependencies' do
-  command 'pip3 install -r /code/requirements.txt'
+  command 'pip3 install -r requirements.txt'
   cwd '/home/bob/myapp'
 end
 
-bash 'run consul-installation.sh and start consul-template' do
-  cwd '$HOME/'
-  code <<-EOH 
-    consul-template -config /CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config.hcl &
-  EOH
+execute 'run consul-template to get application config' do
+  cwd '/home/bob/myapp'
+  command 'consul-template -config /CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config.hcl'
+end
+
+execute 'run application' do
+  cwd '/home/bob/myapp'
+  command 'python3 app.py'
 end
 

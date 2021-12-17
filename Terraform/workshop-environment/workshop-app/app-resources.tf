@@ -13,7 +13,7 @@ resource "aws_launch_configuration" "workshop-app_lc" {
    lifecycle {  # This is necessary to make terraform launch configurations work with autoscaling groups
     create_before_destroy = true
   }
-  security_groups = [aws_security_group.workshop-app.id, var.main-instance_vault_sg_id, var.main-instance_consul_sg_id, var.rds-mysql-db_sg_id]
+  security_groups = [aws_security_group.workshop-app.id, var.main-instance_vault_sg_id, var.main-instance_consul_sg_id, var.rds-mysql-db_sg_id, var.main-instance_ssh_sg_id]
   name_prefix = "${var.cluster_name}_lc"
   enable_monitoring = false
 

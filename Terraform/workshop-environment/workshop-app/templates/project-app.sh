@@ -19,3 +19,5 @@ echo "${main-instance_local_ipv4}  main.services" >> /etc/hosts
 wget https://releases.hashicorp.com/consul-template/0.25.2/consul-template_0.25.2_linux_amd64.zip
 unzip consul-template_0.25.2_linux_amd64.zip
 sudo mv consul-template /usr/local/bin/
+
+chef-solo -c ./CloudSchool-DEVOPS/Chef/solo.rb -j ./CloudSchool-DEVOPS/Chef/runlist.json --chef-license accept

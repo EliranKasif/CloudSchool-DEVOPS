@@ -81,3 +81,7 @@ variable "iam_cloudwatch_s3_profile_name" {
   description = "iam role name for cloudwatch and s3 full access"
   
 }
+
+variable "main-instance_ssh_sg_id" {
+  description = "Main-instance ssh security group id"
+}
