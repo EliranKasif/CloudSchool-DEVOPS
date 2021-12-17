@@ -11,9 +11,6 @@ log_level = "warn"
 
 # render the role with the new value and re run python application
 template {
- source = "./CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config-app.tpl"
- destination = "./CloudSchool-DEVOPS/PythonRestApi/code/config/app.conf"
-  exec {
-    command = "python3 ./CloudSchool-DEVOPS/PythonRestApi/code/app.py> ./consul-template.log"
-  }
+ source = "/CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config-app.tpl"
+ destination = "/home/bob/myapp/code/config/app.conf"
 }
