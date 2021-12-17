@@ -30,7 +30,7 @@ git "/CloudSchool-DEVOPS/Chef/cookbooks/myRestApi/files/default/myapp" do
 end
 
 remote_directory '/home/bob/myapp' do
-  source 'myapp/code' # This is the name of the folder containing our source code that we kept in ./my-cookbook/files/default/
+  source 'myapp' # This is the name of the folder containing our source code that we kept in ./my-cookbook/files/default/
   owner 'bob'
   group 'users'
   mode '0755'
