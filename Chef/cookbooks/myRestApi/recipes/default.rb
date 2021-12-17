@@ -36,7 +36,7 @@ remote_directory '/home/bob/myapp' do
   mode '0755'
   action :create
 end
-vim
+
 execute 'install python dependencies' do
   command 'pip3 install -r requirements.txt'
   cwd '/home/bob/myapp'
@@ -50,6 +50,6 @@ end
 
 execute 'run application' do
   cwd '/home/bob/myapp'
-  command 'python3 app.py &'
+  command 'python3 app.py'
 end
 
