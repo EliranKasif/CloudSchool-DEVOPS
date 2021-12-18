@@ -19,6 +19,7 @@ user 'bob' do
   uid 1212
   gid 'users'
   home '/home/bob'
+  manage_home true
   shell '/bin/bash'
   password '$1$alilbito$C83FsODuq0A1pUMeFPeR10'
 end
