@@ -23,9 +23,19 @@ user 'bob' do
   password '$1$alilbito$C83FsODuq0A1pUMeFPeR10'
 end
 
+directory "/CloudSchool-DEVOPS/Chef/cookbooks/myRestApi/files/default/myapp" do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  ignore_failure true
+  action :create
+end
+
 git "/CloudSchool-DEVOPS/Chef/cookbooks/myRestApi/files/default/myapp" do
   repository "git://github.com/EliranKasif/CloudSchool-PythonRestApi.git"
   reference "main"
+  retries 3
+  notifies :action, 'remote_directory[/home/bob/myapp]', :timer
   action :sync
 end
 
@@ -34,6 +44,7 @@ remote_directory '/home/bob/myapp' do
   owner 'bob'
   group 'users'
   mode '0755'
+  retries 3
   action :create
 end
 
