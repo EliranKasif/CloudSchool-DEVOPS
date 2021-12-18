@@ -35,7 +35,7 @@ git "/CloudSchool-DEVOPS/Chef/cookbooks/myRestApi/files/default/myapp" do
   repository "git://github.com/EliranKasif/CloudSchool-PythonRestApi.git"
   reference "main"
   retries 3
-  notifies :action, 'remote_directory[/home/bob/myapp]', :timer
+  notifies :action, 'remote_directory[/home/bob/myapp]', :immediately
   action :sync
 end
 
