@@ -6,3 +6,4 @@ consul kv put app/config/SCHEMA_NAME "alchemy"
 consul kv put app/config/VAULT_ENDPOINT $VAULT_ADDR
 consul kv put app/config/VAULT_TOKEN  "myroot"
 consul kv put app/config/VAULT_PATH_TO_CREDS "database/creds/my-role-short"
+consul kv put app/version "need_init_from_jenkins"

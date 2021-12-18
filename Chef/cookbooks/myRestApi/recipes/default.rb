@@ -23,29 +23,19 @@ user 'bob' do
   password '$1$alilbito$C83FsODuq0A1pUMeFPeR10'
 end
 
-directory "/CloudSchool-DEVOPS/Chef/cookbooks/myRestApi/files/default/myapp" do
-  owner 'root'
-  group 'root'
+directory "/home/bob/myapp" do
+  owner 'bob'
+  group 'users'
   mode '0755'
   ignore_failure true
   action :create
 end
 
-git "/CloudSchool-DEVOPS/Chef/cookbooks/myRestApi/files/default/myapp" do
+git "/home/bob/myapp" do
   repository "git://github.com/EliranKasif/CloudSchool-PythonRestApi.git"
   reference "main"
   retries 3
-  notifies :create, 'remote_directory[/home/bob/myapp]', :immediately
   action :sync
-end
-
-remote_directory '/home/bob/myapp' do
-  source 'myapp' # This is the name of the folder containing our source code that we kept in ./my-cookbook/files/default/
-  owner 'bob'
-  group 'users'
-  mode '0755'
-  retries 3
-  action :create
 end
 
 execute 'install python dependencies' do
