@@ -6,4 +6,4 @@ SCHEMA_NAME = "{{ key "/app/config/SCHEMA_NAME" }}"
 VAULT_ENDPOINT = "{{ key "/app/config/VAULT_ENDPOINT" }}"
 VAULT_TOKEN = "{{ key "/app/config/VAULT_TOKEN" }}"
 VAULT_PATH_TO_CREDS = "{{ key "/app/config/VAULT_PATH_TO_CREDS" }}"
-APPLICATION_VERSION = "{{key "app/version/APPLICATION_VERSION"}}
+APPLICATION_VERSION = "{{key "app/version/APPLICATION_VERSION"}}"
