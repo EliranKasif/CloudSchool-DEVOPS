@@ -8,12 +8,13 @@ apt_update
 package 'python3'
 package 'python3-pip'
 package 'pkg-config'
-package 'libcairo2-dev'
-package 'libjpeg-dev'
-package 'libgif-dev'
+package 'build-essential'
+package 'libssl-dev'
+package 'libffi-dev'
 package 'libgirepository1.0-dev'
 package 'libmysqlclient-dev'
 package 'git'
+package 'gunicorn3'
 
 user 'bob' do
   uid 1212
@@ -22,6 +23,7 @@ user 'bob' do
   manage_home true
   shell '/bin/bash'
   password '$1$alilbito$C83FsODuq0A1pUMeFPeR10'
+  action [:create, :modify]
 end
 
 directory "/home/bob/myapp" do
