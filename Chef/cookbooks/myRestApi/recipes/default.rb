@@ -44,14 +44,23 @@ execute 'install python dependencies' do
   cwd '/home/bob/myapp'
 end
 
-execute 'run consul-template to get application config' do
-  cwd '/CloudSchool-DEVOPS/DockerCompose/WorkerInstance/'
-  command 'consul-template -config ./consul-config.hcl &'
-  timeout 10         
-end
-
-execute 'run application' do
-  cwd '/home/bob/myapp'
-  command 'python3 app.py'
+systemd_unit 'gunicorn.service' do
+  content({
+  Unit: {
+    Description: 'Flask on Gunicorn',
+    After: 'network.target',
+  },
+  Service: {
+    ExecStart: '/usr/local/bin/gunicorn --workers 3 --bind localhost:5000 app.py:app',
+    User: 'bob',
+    Group: 'www-data',
+    WorkingDirectory: '/home/bob/myapp'
+    Restart: 'always',
+  },
+  Install: {
+    WantedBy: 'multi-user.target',
+  }
+  })
+  action [:create, :enable, :start]
 end
 
