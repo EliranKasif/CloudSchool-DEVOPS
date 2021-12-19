@@ -56,7 +56,7 @@ systemd_unit 'gunicorn.service' do
   Service: {
     ExecStart: 'gunicorn --workers 1 --bind localhost:5000 app:app',
     User: 'bob',
-    Group: 'users',
+    Group: 'www-data',
     WorkingDirectory: '/home/bob/myapp',
     Restart: 'always'
   },
@@ -78,7 +78,7 @@ link '/etc/nginx/sites-enabled/myapp.conf' do
   to '/etc/nginx/sites-available/myapp.conf'
 end
 
-link '/etc/nginx/sites-enabled/default' do
+file '/etc/nginx/sites-enabled/default' do
   action :delete
 end
 
