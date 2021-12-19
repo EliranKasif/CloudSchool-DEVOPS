@@ -31,14 +31,14 @@ directory "/home/bob/myapp" do
   owner 'bob'
   group 'users'
   mode '0755'
-  ignore_failure true
   action :create
 end
 
 git "/home/bob/myapp" do
   repository "git://github.com/EliranKasif/CloudSchool-PythonRestApi.git"
-  reference "main"
+  revision "main"
   retries 3
+  user 'bob'
   action :sync
 end
 
@@ -64,7 +64,7 @@ systemd_unit 'gunicorn.service' do
     WantedBy: 'multi-user.target',
   }
   })
-  action [:create, :enable, :start]
+  action [:create, :enable, :start, :reload_or_restart]
 end
 
 template '/etc/nginx/sites-available/myapp.conf' do
@@ -78,12 +78,16 @@ link '/etc/nginx/sites-enabled/myapp.conf' do
   to '/etc/nginx/sites-available/myapp.conf'
 end
 
-file '/etc/nginx/sites-enabled/default' do
+link '/etc/nginx/sites-enabled/default' do
+  action :delete
+end
+
+link '/etc/nginx/sites-available/default' do
   action :delete
 end
 
 service 'nginx' do
-  action :enable
-  action :start
+  action [:enable, :start, :restart]
+
 end
 

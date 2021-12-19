@@ -20,6 +20,12 @@ wget https://releases.hashicorp.com/consul-template/0.25.2/consul-template_0.25.
 unzip consul-template_0.25.2_linux_amd64.zip
 sudo mv consul-template /usr/local/bin/
 
-consul-template -config ./CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config.hcl > /var/log/consul_template.log 2>&1 &
+chef-solo -c ./CloudSchool-DEVOPS/Chef/solo.rb -j ./CloudSchool-DEVOPS/Chef/runlist.json --chef-license accept
 
-#chef-solo -c ./CloudSchool-DEVOPS/Chef/solo.rb -j ./CloudSchool-DEVOPS/Chef/runlist.json --chef-license accept
+crontab -l > /tmp/mycrontab
+echo "*/1 * * * * cd /CloudSchool-DEVOPS/DockerCompose/WorkerInstance && ./consul-config.hcl > /var/log/consul_template.log 2>&1" >> /tmp/mycrontab
+crontab /tmp/mycrontab
+
+#consul-template -config ./CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config.hcl > /var/log/consul_template.log 2>&1 &
+
+
