@@ -14,7 +14,7 @@ package 'libffi-dev'
 package 'libgirepository1.0-dev'
 package 'libmysqlclient-dev'
 package 'git'
-package 'gunicorn3'
+package 'gunicorn'
 
 user 'bob' do
   uid 1212
