@@ -78,6 +78,10 @@ link '/etc/nginx/sites-enabled/myapp.conf' do
   to '/etc/nginx/sites-available/myapp.conf'
 end
 
+link '/etc/nginx/sites-enabled/default' do
+  action :delete
+end
+
 service 'nginx' do
   action :enable
   action :start
