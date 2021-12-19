@@ -15,6 +15,7 @@ package 'libgirepository1.0-dev'
 package 'libmysqlclient-dev'
 package 'git'
 package 'gunicorn'
+package 'nginx'
 
 user 'bob' do
   uid 1212
@@ -55,7 +56,7 @@ systemd_unit 'gunicorn.service' do
   Service: {
     ExecStart: 'gunicorn --workers 1 --bind 0.0.0.0:5000 app.py:app',
     User: 'bob',
-    Group: 'www-data',
+    Group: 'users',
     WorkingDirectory: '/home/bob/myapp',
     Restart: 'always'
   },
@@ -64,5 +65,21 @@ systemd_unit 'gunicorn.service' do
   }
   })
   action [:create, :enable, :start]
+end
+
+template '/etc/nginx/sites-available/myapp.conf' do
+  source 'nginx.conf.erb'
+  owner 'root'
+  group 'root'
+  mode '0744'
+end
+
+link '/etc/nginx/sites-enabled/myapp.conf' do
+  to '/etc/nginx/sites-available/myapp.conf'
+end
+
+service 'nginx' do
+  action :enable
+  action :start
 end
 
