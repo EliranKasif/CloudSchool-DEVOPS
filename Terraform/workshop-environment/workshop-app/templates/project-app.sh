@@ -7,7 +7,7 @@ cd $HOME
 wget https://packages.chef.io/files/stable/chefdk/4.13.3/ubuntu/20.04/chefdk_4.13.3-1_amd64.deb
 apt -y install ./chefdk_4.13.3-1_amd64.deb
 
-apt -y install git-all
+apt -y install git
 
 apt -y install unzip
 
@@ -20,6 +20,6 @@ wget https://releases.hashicorp.com/consul-template/0.25.2/consul-template_0.25.
 unzip consul-template_0.25.2_linux_amd64.zip
 sudo mv consul-template /usr/local/bin/
 
-consul-template -config ./CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config.hcl > /var/log/consul_template.log 2>&1
+consul-template -config ./CloudSchool-DEVOPS/DockerCompose/WorkerInstance/consul-config.hcl > /var/log/consul_template.log 2>&1 &
 
 #chef-solo -c ./CloudSchool-DEVOPS/Chef/solo.rb -j ./CloudSchool-DEVOPS/Chef/runlist.json --chef-license accept

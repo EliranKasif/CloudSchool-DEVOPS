@@ -87,8 +87,8 @@ resource "aws_security_group" "workshop-app" {
 
   ingress {
     description      = "http"
-    from_port        = 5000
-    to_port          = 5000
+    from_port        = 8080
+    to_port          = 8080
     protocol         = "tcp"
     self = true
   }
@@ -103,7 +103,7 @@ resource "aws_security_group" "workshop-app" {
 resource "aws_elb" "workshop-app" {
   name = "${var.cluster_name}-lb"
   listener {
-    instance_port = 5000
+    instance_port = 8080
     instance_protocol = "HTTP"
     lb_port = 80
     lb_protocol = "HTTP"
@@ -115,7 +115,7 @@ resource "aws_elb" "workshop-app" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     timeout             = 3
-    target              = "HTTP:5000/checkhealth"
+    target              = "HTTP:8080/checkhealth"
     interval            = 30
   }  
   idle_timeout                = 400

@@ -4,7 +4,7 @@ sudo -i
 apt update
 cd ~
 
-apt -y install git-all
+apt -y install git
 
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh

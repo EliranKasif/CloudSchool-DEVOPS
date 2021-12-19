@@ -60,7 +60,14 @@ resource "aws_security_group" "main-instance_consul" {
     protocol         = "tcp"
     self = true
   }
-    ingress {
+  ingress {
+    description      = "consul-debug"
+    from_port        = 8500
+    to_port          = 8500
+    protocol         = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
     description      = "consul"
     from_port        = 8600
     to_port          = 8600
