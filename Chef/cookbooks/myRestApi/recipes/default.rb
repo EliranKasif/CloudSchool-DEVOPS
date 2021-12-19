@@ -54,8 +54,8 @@ systemd_unit 'gunicorn.service' do
     ExecStart: '/usr/local/bin/gunicorn --workers 3 --bind localhost:5000 app.py:app',
     User: 'bob',
     Group: 'www-data',
-    WorkingDirectory: '/home/bob/myapp'
-    Restart: 'always',
+    WorkingDirectory: '/home/bob/myapp',
+    Restart: 'always'
   },
   Install: {
     WantedBy: 'multi-user.target',
