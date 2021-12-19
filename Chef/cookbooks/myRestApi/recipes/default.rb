@@ -53,7 +53,7 @@ systemd_unit 'gunicorn.service' do
     After: 'network.target',
   },
   Service: {
-    ExecStart: '/usr/local/bin/gunicorn --workers 3 --bind localhost:5000 app.py:app',
+    ExecStart: 'gunicorn --workers 1 --bind 0.0.0.0:5000 app.py:app',
     User: 'bob',
     Group: 'www-data',
     WorkingDirectory: '/home/bob/myapp',
