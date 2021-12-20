@@ -4,13 +4,6 @@
 
 log_level = "debug"
 
-log_file {
-  # If a path is specified, the feature is enabled
-  # Please refer to the documentation for the -log-file
-  # CLI flag for more information about its behaviour
-  path = "/var/log/consul-template.log"
-}
-
 # render the role with the new value and re run python application
 
 template {
