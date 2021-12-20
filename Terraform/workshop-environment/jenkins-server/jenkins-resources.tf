@@ -16,6 +16,7 @@ resource "aws_instance" "jenkins-server" {
   ami = var.ami
   instance_type = var.instance_type
   key_name = data.terraform_remote_state.site.outputs.admin_key_name
+  iam_instance_profile = var.iam_cloudwatch_s3_profile_name
   tags  ={
     Name = "Jenkins-server"
     Source = "Terraform"

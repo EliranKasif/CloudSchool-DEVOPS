@@ -46,3 +46,13 @@ variable region {
   default = "eu-west-1"  
 } 
 
+variable "iam_cloudwatch_s3_profile_id" {
+  description = "iam role id for cloudwatch and s3 full access"
+  
+}
+
+variable "iam_cloudwatch_s3_profile_name" {
+  description = "iam role name for cloudwatch and s3 full access"
+  
+}
+
