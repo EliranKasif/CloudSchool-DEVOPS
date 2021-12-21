@@ -11,9 +11,5 @@ apt -y install git
 git clone https://github.com/EliranKasif/CloudSchool-DEVOPS.git
 echo "${main-instance_local_ipv4}  main.services" >> /etc/hosts
 
-apt -y install awscli
-
-aws s3 sync s3://eliran-cloudschool/jenkins_data ~/jenkins_data
-
 docker-compose -f ./CloudSchool-DEVOPS/DockerCompose/JenkinsInstance/docker-compose.yml up --detach
 
