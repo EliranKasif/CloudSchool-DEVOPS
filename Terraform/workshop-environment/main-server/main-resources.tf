@@ -38,6 +38,13 @@ resource "aws_security_group" "main-instance_vault" {
     protocol         = "tcp"
     self = true
   }
+  ingress {
+    description      = "vault-debug"
+    from_port        = 8200
+    to_port          = 8200
+    protocol         = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port = 0
     to_port = 0
